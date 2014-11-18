@@ -7,7 +7,20 @@ env = VRouterEnv.Clone()
 
 vrouter_suite = []
 
-# Include paths
+#kernel module
+vr_root = './'
+makefile = vr_root + 'Makefile'
+dp_dir = Dir(vr_root).srcnode().abspath
+
+make_cmd = 'make'
+if GetOption('kernel-dir'):
+    make_cmd += ' KERNELDIR=' + GetOption('kernel-dir')
+    make_cmd += ' SANDESH_HEADER_PATH=' + Dir(env['TOP'] + '/vrouter/').abspath
+    make_cmd += ' SANDESH_SRC_ROOT=' + '../build/kbuild/'
+    make_cmd += ' SANDESH_EXTRA_HEADER_PATH=' + Dir('#tools/').abspath
+
+kern = env.Command('vr_linux_test.ko', makefile, make_cmd, chdir=dp_dir)
+#vrouter_suite.append(kern)
 
 # CFLAGS
 env.Append(CCFLAGS = '-g')

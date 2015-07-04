@@ -5,8 +5,12 @@
 Import('VRouterEnv')
 env = VRouterEnv.Clone()
 
-DpSandeshFiles = env.SandeshGenC('vr.sandesh')
-DpSandeshFilesSrc = env.ExtractC(DpSandeshFiles)
+DpSandeshCFiles = env.SandeshGenC('vr.sandesh')
+DpSandeshCFilesSrc = env.ExtractC(DpSandeshCFiles)
+DpSandeshPyFiles = env.SandeshGenPy('vr.sandesh')
+DpSandeshPyFilesSrc = env.ExtractPy(DpSandeshPyFiles)
+DpSandeshFilesSrc = DpSandeshCFilesSrc + DpSandeshPyFilesSrc
+
 libdp_sandesh = env.Library('dp_sandesh_c', DpSandeshFilesSrc)
 
 sandesh_sources = [
